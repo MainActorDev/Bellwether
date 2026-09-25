@@ -47,6 +47,15 @@ struct BellwetherTests {
         #expect(box.count == 1)                               // no second delivery
     }
 
+    @Test("activate() opens the gate; deactivate() closes it")
+    func activationLifecycle() {
+        Bellwether.subscriptionsAllowed = false
+        Bellwether.activate()
+        #expect(Bellwether.subscriptionsAllowed == true)
+        Bellwether.deactivate()
+        #expect(Bellwether.subscriptionsAllowed == false)
+    }
+
     @Test("two screens coexist — each handler fires only for its id")
     func multiScreen() async {
         Bellwether.subscriptionsAllowed = true

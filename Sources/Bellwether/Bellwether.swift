@@ -28,6 +28,18 @@ public enum Bellwether {
     /// the operator's contract (documented in the README).
     nonisolated(unsafe) public static var subscriptionsAllowed = false
 
+    /// The sanctioned consumer entry: call ONCE at app launch, from the app
+    /// target, inside its Debug (or deliberate QA-build) compilation region.
+    /// Sets-once semantics: an app that never calls it stays denied.
+    public static func activate() {
+        subscriptionsAllowed = true
+    }
+
+    /// Symmetric off-switch (tests / teardown).
+    public static func deactivate() {
+        subscriptionsAllowed = false
+    }
+
     /// The full seam condition: gate AND launch argument.
     public static var isLiveRefreshEnabled: Bool {
         subscriptionsAllowed && argumentPresent
